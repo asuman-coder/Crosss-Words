@@ -2,30 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'cross_word_widget.dart';
 
-void main() {
-  ErrorWidget.builder = (FlutterErrorDetails details) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          // "Error\n${details.exception}",
-          "Error\n something went wrong",
-          style: TextStyle(
-            color: Colors.orangeAccent,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    );
-  };
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+v
 
   @override
   Widget build(BuildContext context) {
