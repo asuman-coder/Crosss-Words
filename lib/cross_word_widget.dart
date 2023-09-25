@@ -99,19 +99,7 @@ class _CrosswordWidgetState extends State<CrosswordWidget> {
           currentDragObj!.value.currentDragLine.join("-");
     });
 
-    print(currentDragObj!.value.currentDragLine.join("-"));
-    if (indexFound >= 0) {
-      answerList!.value[indexFound].done = true;
-      // save answerList which complete
-      charsDone!.value
-          .addAll(answerList!.value[indexFound].answerLines as Iterable<int>);
-      // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-      charsDone!.notifyListeners();
-      // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-      answerList!.notifyListeners();
-      // onDragEnd();
-
-      onDragEnd;
+    
     }
   }
 
@@ -208,94 +196,7 @@ class _CrosswordWidgetState extends State<CrosswordWidget> {
     currentDragObj!.notifyListeners();
   }
 
-  void onDragStart(int indexArray) {
-    try {
-      List<CrosswordAnswer> indexSelecteds = answerList!.value
-          .where((answer) => answer.indexArray == indexArray)
-          .toList();
-
-      // check indexSelecteds got any match , if 0 no proceed!
-      if (indexSelecteds.length == 0) return;
-      // nice triggered
-      currentDragObj!.value.indexArrayOnTouch = indexArray;
-      currentDragObj!.notifyListeners();
-    } catch (e) {}
-  }
-
-  // nice one
-
-  Widget drawCrosswordBox() {
-    // add listener tp catch drag, push down & up
-    return Listener(
-      onPointerUp: (event) async {
-        onDragEnd(event);
-
-        final player = AudioPlayer();
-        player.play(
-          // AssetSource('note1.wav'),
-          ('note1.wav') as Source,
-        );
-      },
-      onPointerMove: (event) async {
-        onDragUpdate(event);
-
-        final player = AudioPlayer();
-        player.play(
-          // AssetSource('note1.wav'),
-          ('note1.wav') as Source,
-        );
-      },
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          sizeBox = Size(constraints.maxWidth, constraints.maxWidth);
-          return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 1,
-              crossAxisCount: numBoxPerRow,
-              crossAxisSpacing: padding,
-              mainAxisSpacing: padding,
-            ),
-            itemCount: numBoxPerRow * numBoxPerRow,
-            physics: const ScrollPhysics(),
-            itemBuilder: (context, index) {
-              // we need expand because to merge 2d array to become 1..
-              // example [["x","x"],["x","x"]] become ["x","x","x","x"]
-              String char = listChars!.value.expand((e) => e).toList()[index];
-
-              // yeayy.. now we got crossword box.. easy right!!
-              // later i will show how to display current word on crossword
-              // next show color path on box when drag, we will using Valuelistener
-              // done .. yeayy.. this is simple crossword system
-              return Listener(
-                onPointerDown: (event) async {
-                  onDragStart(index);
-
-                  try {
-                    final player = AudioPlayer();
-
-                    await player.play(
-                      // AssetSource('note1.wav'),
-                      ('note1.wav') as Source,
-                    );
-                  } catch (e) {
-                    print(e.toString());
-                  }
-                },
-                child: ValueListenableBuilder(
-                  valueListenable:
-                      currentDragObj as ValueListenable<CurrentDragObj>,
-                  builder: (context, CurrentDragObj value, child) {
-                    Color color = Colors.white;
-
-                    if (value.currentDragLine.contains(index))
-                      color = Colors
-                          .blue; // change color when path line is contain index
-                    // else if (charsDone!.value.contains(index))
-                    //   color =
-                    //       Colors.red; // change color box already path correct
-
-                    return Container(
-                      decoration: BoxDecoration(
+  void onDr
                         color: color,
                       ),
                       alignment: Alignment.center,
